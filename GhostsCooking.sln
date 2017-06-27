@@ -1,7 +1,11 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 2015
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GhostsCooking.Plugins", "GhostsCooking.Plugins.csproj", "{7459DC1C-DBF4-864C-F7F0-750397F4A68E}"
+EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GhostsCooking", "GhostsCooking.csproj", "{033D3DE0-1189-D26A-387B-3915126FD59C}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GhostsCooking.Editor.Plugins", "GhostsCooking.Editor.Plugins.csproj", "{F4C6CC47-1C5F-857C-FF9C-92195170AD3D}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -9,10 +13,18 @@ Global
 		Release|Any CPU = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{7459DC1C-DBF4-864C-F7F0-750397F4A68E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{7459DC1C-DBF4-864C-F7F0-750397F4A68E}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{7459DC1C-DBF4-864C-F7F0-750397F4A68E}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{7459DC1C-DBF4-864C-F7F0-750397F4A68E}.Release|Any CPU.Build.0 = Release|Any CPU
 		{033D3DE0-1189-D26A-387B-3915126FD59C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{033D3DE0-1189-D26A-387B-3915126FD59C}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{033D3DE0-1189-D26A-387B-3915126FD59C}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{033D3DE0-1189-D26A-387B-3915126FD59C}.Release|Any CPU.Build.0 = Release|Any CPU
+		{F4C6CC47-1C5F-857C-FF9C-92195170AD3D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{F4C6CC47-1C5F-857C-FF9C-92195170AD3D}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{F4C6CC47-1C5F-857C-FF9C-92195170AD3D}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{F4C6CC47-1C5F-857C-FF9C-92195170AD3D}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
