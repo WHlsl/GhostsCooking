@@ -6,10 +6,15 @@ using UnityEngine.UI;
 public class Timer : MonoBehaviour {
     public float lifeTime = 5.0f;
     private float timer = 0.0f;
-    private float lastTime;
-    private bool IsTime = false;
+
+    public bool IsTime { get; set; }
+
+    public bool IsDestroyInMinute { get; set; }
+    //private bool IsTime = false;
     private bool IsPause = false;
     public Slider TimerSlider;
+
+    //private bool IsHalfTime = false;
 	// Use this for initialization
 	void Start () {
         //TimerSlider=this.sli
@@ -18,25 +23,33 @@ public class Timer : MonoBehaviour {
 	
 	// Update is called once per frame
 	void Update () {
+       
+            
+        
         if (timer < lifeTime && !IsPause)
         {
             timer += Time.deltaTime;
             
         }
-        if (timer > lifeTime)
+        if ((timer > lifeTime)&& (!IsTime))
         {
             IsTime = true;
-            Invoke("DestroyTimer", 1.0f);
+            if (IsDestroyInMinute)
+            {
+                Invoke("DestroyTimer", 1.0f);
+            }
             //Debug.Log(IsTime);
         }
+       
         TimerSlider.value = timer / lifeTime;
         //Debug.Log(timer);
 
     }
    
-    public bool GetIsTime()
+   
+    public void SetIsTime()
     {
-        return IsTime;
+
     }
     public void TimerPause()
     {
@@ -46,12 +59,24 @@ public class Timer : MonoBehaviour {
     {
         IsPause = false;
     }
+    public void DeleteTime(float delelteTime)
+    {
+        timer -= delelteTime;
+        if (timer < 0)
+        {
+            timer = 0;
+        }
+        
+    }
     public void TimerReset()
     {
+        IsTime = false;
         timer = 0.0f;
     }
+   
     public void DestroyTimer()
     {
         Destroy(gameObject);
     }
+    
 }

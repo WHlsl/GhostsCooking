@@ -9,8 +9,8 @@ public class PlayerMove : MonoBehaviour {
     //public float rangeForce = 5f;
     private Rigidbody rb;
     //private Rigidbody2D rangeRb2D;
-    public float maxSpeed = 20f;
-    private float minSpeed = 0;
+    //public float maxSpeed = 20f;
+    //private float minSpeed = 0;
     public AudioClip[] jumpSounds;
     public string PH;
     public string PV;
@@ -19,7 +19,7 @@ public class PlayerMove : MonoBehaviour {
         trans = GetComponent<Transform>();
         rb = GetComponent<Rigidbody>();
         //rangeRb2D = GetComponentInParent<Rigidbody2D>();
-        minSpeed = -maxSpeed;
+        //minSpeed = -maxSpeed;
     }
 	
 	// Update is called once per frame
@@ -35,16 +35,17 @@ public class PlayerMove : MonoBehaviour {
         //movement
         float h = Input.GetAxis(PH);
         float v = Input.GetAxis(PV);
+        //Debug.Log(h);
         
 
         rb.velocity = new Vector3(h*speed, 0,v*speed);
         //Debug.Log(rb.velocity);
-        Vector3 targetDirection = new Vector3(h, 0f, v);
+        Vector3 targetDirection = new Vector3(h, 0.0f, v);
         // 创建目标旋转值 并假设Y轴正方向为"上"方向
-        Quaternion targetRotation = Quaternion.LookRotation(targetDirection, Vector3.up); //函数参数解释: LookRotation(目标方向为"前方向", 定义声明"上方向")
+        Quaternion targetRotation = Quaternion.LookRotation(targetDirection); //函数参数解释: LookRotation(目标方向为"前方向", 定义声明"上方向")
         // 创建新旋转值 并根据转向速度平滑转至目标旋转值
         //函数参数解释: Lerp(角色刚体当前旋转值, 目标旋转值, 根据旋转速度平滑转向)
-        Quaternion newRotation = Quaternion.Lerp(rb.rotation, targetRotation, speed * 0.5f*Time.deltaTime);
+        Quaternion newRotation = Quaternion.Lerp(rb.rotation, targetRotation, speed * 1f*Time.deltaTime);
         // 更新刚体旋转值为 新旋转值
         rb.MoveRotation(newRotation);
         //Debug.Log(trans.rotation);

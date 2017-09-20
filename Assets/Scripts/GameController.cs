@@ -4,37 +4,78 @@ using UnityEngine;
 
 public class GameController : MonoBehaviour {
     public static GameController Instance;
-    public Transform canvas;
-    public GameObject TaskBar;
-    private GameObject[] TaskBars;
-    private Vector2[] taskPosition;
-    private ArrayList taskList=new ArrayList();
-    private int i = 0;
-    private float ScreenX=100.0f;
-	// Use this for initialization
-	void Start () {
-        Instance = this;
-        InvokeRepeating("Task", 0, 20.0f);
-    }
-	
-	// Update is called once per frame
-	void Update () {
-        
-	}
-    public void Task()
-    {
-        GameObject task=Instantiate(TaskBar, new Vector2(0, i*ScreenX), Quaternion.identity);
-        task.transform.SetParent(canvas);
-        taskList.Add(task);
-        i++;
+    public GameObject taskPrefab;
+    public GameObject horizontalParent;
+    //private ArrayList taskList;
+    private GameObject[] tasks;
+    private int taskCount = 0;
+    private float timer = 0;
+    private float lifeTime = 10.0f;
+    public int MaxTaskCount = 5;
 
-    }
-    public int GetTaskCount()
+    private SceneController sc;
+    // Use this for initialization
+    void Start()
     {
-        return i;
+        Instance = this;
+        tasks = new GameObject[MaxTaskCount];
+        //taskList = new ArrayList();
+        tasks[0]=CreateTask();
+        //InvokeRepeating("DestroyTask", 0, 30.0f);
+        sc = GetComponent<SceneController>();
     }
-    public void SetTaskCount()
+
+    // Update is called once per frame
+    void Update()
     {
-        i --;
+        
+            
+           
+        
+        if (taskCount > 0 && taskCount < MaxTaskCount)
+        {
+            timer += Time.deltaTime;
+            if(timer> lifeTime)
+            {
+                for(int i = 0; i < MaxTaskCount; i++)
+                {
+                    if (tasks[i] == null)
+                    {
+                        tasks[i]=CreateTask();
+                        break;
+                        Debug.Log("create");
+                    }
+                }
+                timer = 0;
+            }
+
+        }
+        if (TimerManager.Instance.IsTimeEnd)
+        {
+            GameOver();
+        }
+        if (Input.GetKeyDown(KeyCode.Escape))
+        {
+            Application.Quit();
+        }
+    }
+
+    public GameObject CreateTask()
+    {
+        GameObject activeTask;
+        activeTask = Instantiate(taskPrefab);
+
+        activeTask.transform.SetParent(horizontalParent.transform);
+        activeTask.transform.localScale = Vector3.one;
+        taskCount++;
+        return activeTask;
+    }
+    public void RemoveTask()
+    {
+        taskCount--;
+    }
+    public void GameOver()
+    {
+        sc.LoadEndScene();
     }
 }

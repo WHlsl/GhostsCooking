@@ -4,23 +4,52 @@ using UnityEngine;
 using UnityEngine.UI;
 
 public class Task : MonoBehaviour {
-    public GameObject pan;
-    private Food[] cookingFood;
-    private  Cooking cooking;
+    private GameObject servePosition;
+    
+    private Food[] servedFood;
+    private Serving serving;
     public int Count = 3;
     private int needGreenCount;
     private int needYellowCount;
 
     private Text task;
 
+    private Transform[] taskChildren;
+    //public Image greenTask;
+    //public Image yellowTask;
+    public Image[] foodTask=new Image[2];
 	// Use this for initialization
 	void Start () {
-        cooking = pan.GetComponent<Cooking>();
-        needGreenCount = Random.Range(0, 3);
-        task = GetComponentInChildren<Text>();
-        needYellowCount = Count - needGreenCount;
+        servePosition = GameObject.FindGameObjectWithTag("servedPosition");
+        serving = GameObject.FindGameObjectWithTag("servingCollider").GetComponent<Serving>();
+
+        taskChildren = GetComponentsInChildren<Transform>();
+        //needGreenCount = Random.Range(0, 3);
+        //task = GetComponentInChildren<Text>();
+        //needYellowCount = Count - needGreenCount;
         //needYellowCount = 0;
-        task.text = "绿：" + needGreenCount + " " + "黄：" + needYellowCount;
+        for(int i=1;i< Count+1; i++)
+        {
+            int foodIndex = Random.Range(0, foodTask.Length);
+            Image ft = Instantiate(foodTask[foodIndex], taskChildren[i]);
+            ft.transform.SetParent(taskChildren[i]);
+            switch (foodIndex)
+            {
+                case 0:
+                    needGreenCount++;
+                    break;
+                case 1:
+                    needYellowCount++;
+                    break;
+                default:
+                    break;
+            }
+            //greenTask.transform.SetParent(taskChildren[i]);
+            //Debug.Log(taskChildren[i].name);
+
+        }
+
+        //task.text = "绿：" + needGreenCount + " " + "黄：" + needYellowCount;
 
         
 
@@ -28,30 +57,31 @@ public class Task : MonoBehaviour {
 	
 	// Update is called once per frame
 	void Update () {
-        if (cooking.GetGreenCount() == needGreenCount && cooking.GetYellowCount() == needYellowCount)
+        if (serving.GetCabbageCount() == needGreenCount && serving.GetCarrotCount() == needYellowCount)
         {
-            cookingFood = pan.GetComponentsInChildren<Food>();
-            foreach(Food f in cookingFood)
+            servedFood = servePosition.GetComponentsInChildren<Food>();
+            foreach(Food f in servedFood)
             {
-                if (f.GetState() ==1)
+                if (f.GetState() ==2)
                 {
                     Score.Instance.AddMidScore();
-                    f.SetState(2);
+                    
                 }
                 else
                 {
-                    Score.Instance.DeleteLowScore();
-                    Debug.Log(Score.Instance.GetScore());
-                    f.SetState(2);
+                    Score.Instance.AddLowScore();
+                   // Debug.Log(Score.Instance.GetScore());
+                    
                 }
+                Debug.Log(f.GetState());
             }
-            
-            cooking.ResetGreenCount();
-            cooking.ResetYellowCount();
+            serving.ResetServedCount();
+            serving.ResetCabbageCount();
+            serving.ResetCarrotCount();
             
             Invoke("DestroySelf",1);
         }
-        Invoke("DestroyByTime", 30.0f);
+        Invoke("DestroyByTime", 40.0f);
 	}
     public int GetNeedGreenCount()
     {
@@ -68,6 +98,7 @@ public class Task : MonoBehaviour {
     public void DestroyByTime()
     {
         Destroy(gameObject);
+        GameController.Instance.RemoveTask();
         //GameController.Instance.SetTaskCount();
     }
 }

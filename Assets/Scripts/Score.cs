@@ -16,8 +16,8 @@ public class Score : MonoBehaviour {
 	
 	// Update is called once per frame
 	void Update () {
-        
-	}
+        scoreText.text = "score:" + score;
+    }
     public int GetScore()
     {
         return score;
@@ -26,13 +26,13 @@ public class Score : MonoBehaviour {
     {
         score = score + lowScore;
         
-        scoreText.text = "score:" + score;
+        
     }
     public void AddMidScore()
     {
         score = score + midScore;
 
-        scoreText.text = "score:" + score;
+       
     }
     public void DeleteLowScore()
     {
@@ -41,6 +41,6 @@ public class Score : MonoBehaviour {
         {
             score = 0;
         }
-        scoreText.text = "score:" + score;
+        
     }
 }
